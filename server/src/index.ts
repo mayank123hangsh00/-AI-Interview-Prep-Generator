@@ -34,13 +34,17 @@ app.use(errorHandler);
 
 // Start server
 async function start() {
-  await connectDB();
-
   app.listen(env.PORT, () => {
     console.log(`🚀 Server running on port ${env.PORT}`);
     console.log(`   Environment: ${env.NODE_ENV}`);
     console.log(`   Client URL: ${env.CLIENT_URL}`);
   });
+
+  try {
+    await connectDB();
+  } catch (err) {
+    console.error('⚠️ Initial MongoDB connection failed:', err);
+  }
 }
 
 start().catch(console.error);
