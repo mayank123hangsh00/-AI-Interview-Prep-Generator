@@ -34,7 +34,7 @@ app.use(cookieParser());
 
 // Health check
 app.get('/api/health', (_req, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+  res.json({ status: 'ok', buildId: '2026-09-21-v4', timestamp: new Date().toISOString() });
 });
 
 // Routes
