@@ -1,0 +1,14 @@
+[
+  {
+    "company": "Stripe",
+    "url": "https://stripe.com/jobs",
+    "jd": "Senior Backend Engineer - Financial Infrastructure\n\nAbout Stripe:\nStripe is a financial infrastructure platform for businesses. Millions of companies—from the world's largest enterprises to the most ambitious startups—use Stripe to accept payments, grow their revenue, and accelerate new business opportunities.\n\nRole Description:\nWe are looking for a Senior Backend Engineer to join our Financial Infrastructure team. You will build high-throughput, zero-downtime ledger services, API integrations, and event-driven microservices processing billions of dollars in daily transactions.\n\nRequirements:\n- 5+ years of experience with distributed systems in Go, Ruby, or Java\n- Strong experience with SQL (PostgreSQL), Redis, Kafka, and idempotent transaction processing\n- Track record of designing low-latency, highly available API services\n- Excellent system design and fault-tolerant architecture skills\n- Experience with observability, tracing (Datadog/OpenTelemetry), and automated testing\n\nResponsibilities:\n- Design and implement core accounting and settlement services\n- Participate in on-call rotations and ensure 99.999% reliability\n- Mentor junior engineers and collaborate across teams",
+    "days_available": 3
+  },
+  {
+    "company": "Vercel",
+    "url": "https://vercel.com/careers",
+    "jd": "Frontend Systems Engineer - Next.js Core\n\nAbout Vercel:\nVercel's frontend cloud gives developers the frameworks, workflows, and infrastructure to build a faster, more personalized Web.\n\nRole Description:\nWe are looking for an engineer to join the Next.js Core team. You will work on compiler performance, Turbopack, React Server Components, and client-side routing optimization.\n\nRequirements:\n- Deep expertise in React, Next.js, Webpack/Turbopack, and TypeScript\n- Experience with AST manipulation, Babel, SWC, or Rust compiler tooling\n- Strong understanding of web performance metrics (Core Web Vitals, SSR, streaming HTML)\n- Passion for developer experience and open-source software\n\nResponsibilities:\n- Improve Next.js dev server startup times and hot module reloading\n- Maintain open-source repositories and engage with community feedback",
+    "days_available": 5
+  }
+]

@@ -1,0 +1,21 @@
+{
+  "name": "ai-interview-prep-kit",
+  "version": "1.0.0",
+  "description": "AI-powered interview preparation kit generator",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "cd server && npm run dev",
+    "dev:client": "cd client && npm run dev",
+    "build": "cd server && npm run build && cd ../client && npm run build",
+    "build:server": "cd server && npm run build",
+    "build:client": "cd client && npm run build",
+    "start:server": "cd server && npm start",
+    "test": "cd server && npm test",
+    "evaluate": "cd server && npx tsx ../scripts/evaluate.ts",
+    "install:all": "npm install && cd server && npm install && cd ../client && npm install"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}
