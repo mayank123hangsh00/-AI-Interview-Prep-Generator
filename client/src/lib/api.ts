@@ -41,7 +41,7 @@ async function request<T = any>(endpoint: string, options: ApiOptions = {}): Pro
       ...authHeaders,
       ...headers,
     },
-    credentials: 'include', // Send cookies
+    credentials: 'same-origin',
   };
 
   if (body) {
