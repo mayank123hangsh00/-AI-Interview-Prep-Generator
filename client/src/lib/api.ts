@@ -2,7 +2,9 @@
  * API Client — Centralized API communication for the frontend.
  */
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+const rawApiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+// Strip trailing slashes and trailing /api to prevent /api/api duplication
+const API_URL = rawApiUrl.replace(/\/+$/, '').replace(/\/api$/, '');
 
 interface ApiOptions {
   method?: string;
@@ -24,10 +26,19 @@ class ApiError extends Error {
 async function request<T = any>(endpoint: string, options: ApiOptions = {}): Promise<T> {
   const { method = 'GET', body, headers = {} } = options;
 
+  const authHeaders: Record<string, string> = {};
+  if (typeof window !== 'undefined') {
+    const token = localStorage.getItem('prepkit_token');
+    if (token) {
+      authHeaders['Authorization'] = `Bearer ${token}`;
+    }
+  }
+
   const config: RequestInit = {
     method,
     headers: {
       'Content-Type': 'application/json',
+      ...authHeaders,
       ...headers,
     },
     credentials: 'include', // Send cookies
@@ -58,14 +69,31 @@ async function request<T = any>(endpoint: string, options: ApiOptions = {}): Pro
 // ─── Auth API ──────────────────────────────────────────────────
 
 export const authApi = {
-  register: (email: string, password: string) =>
-    request('/api/auth/register', { method: 'POST', body: { email, password } }),
+  register: async (email: string, password: string) => {
+    const res = await request('/api/auth/register', { method: 'POST', body: { email, password } });
+    if (res?.token && typeof window !== 'undefined') {
+      localStorage.setItem('prepkit_token', res.token);
+    }
+    return res;
+  },
 
-  login: (email: string, password: string) =>
-    request('/api/auth/login', { method: 'POST', body: { email, password } }),
+  login: async (email: string, password: string) => {
+    const res = await request('/api/auth/login', { method: 'POST', body: { email, password } });
+    if (res?.token && typeof window !== 'undefined') {
+      localStorage.setItem('prepkit_token', res.token);
+    }
+    return res;
+  },
 
-  logout: () =>
-    request('/api/auth/logout', { method: 'POST' }),
+  logout: async () => {
+    try {
+      await request('/api/auth/logout', { method: 'POST' });
+    } finally {
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('prepkit_token');
+      }
+    }
+  },
 
   me: () =>
     request('/api/auth/me'),
