@@ -12,30 +12,23 @@ validateEnv();
 
 const app = express();
 
-// Middleware
-app.use(cors({
-  origin: (origin, callback) => {
-    // Allow requests with no origin (e.g. mobile apps, curl, server-to-server)
-    if (!origin) return callback(null, true);
+// CORS Middleware (handles dynamic origins with credentials & OPTIONS preflights)
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  if (origin) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+  } else {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+  }
+  res.setHeader('Access-Control-Allow-Methods', 'GET, HEAD, POST, PUT, PATCH, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
 
-    // If explicit client URL or local environment or any vercel.app deployment, allow it
-    const allowed = [
-      env.CLIENT_URL,
-      'http://localhost:3000',
-      'http://localhost:3001',
-      'http://127.0.0.1:3000',
-      'http://127.0.0.1:3001',
-    ].filter(Boolean);
-
-    if (allowed.includes(origin) || origin.endsWith('.vercel.app') || origin.includes('vercel.app')) {
-      return callback(null, origin);
-    }
-
-    // Dynamic fallback for any requesting origin to prevent CORS blocks on Vercel deployment URLs
-    return callback(null, origin);
-  },
-  credentials: true,
-}));
+  if (req.method === 'OPTIONS') {
+    return res.status(204).end();
+  }
+  next();
+});
 app.use(express.json({ limit: '5mb' }));
 app.use(cookieParser());
 
