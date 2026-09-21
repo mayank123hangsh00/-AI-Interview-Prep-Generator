@@ -5,8 +5,7 @@ import path from 'path';
 const envPaths = [
   path.resolve(process.cwd(), '.env'),
   path.resolve(process.cwd(), '../.env'),
-  path.resolve(__dirname, '../../../.env'),
-  path.resolve(__dirname, '../../.env'),
+  path.resolve(process.cwd(), 'server/.env'),
 ];
 
 for (const p of envPaths) {
